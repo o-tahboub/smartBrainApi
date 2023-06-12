@@ -1,3 +1,5 @@
+import bcrypt from 'bcrypt'
+const bcryptSaltRounds = 10;
 import express, { json } from 'express'
 const app = express()
 const port = 3000
@@ -6,18 +8,19 @@ app.use(express.json())
 const database = {
     users: [
         {
+            
+            id: '122',
+            name: 'samson',
+            email: 'samson@fictional.com',
+            passowrd: ***REMOVED***
+            entries: 0,
+            joined: '2023-06-12T09:19:22.019Z'
+        },
+        {
             id: '123',
             name: 'Josh',
             email: 'josh@fictional.com',
             password: 'potatoes',
-            entries: 0,
-            joined: new Date()
-        },
-        {
-            id: '124',
-            name: 'Julie',
-            email: 'julie@fictional.com',
-            password: 'carrots',
             entries: 0,
             joined: new Date()
         }
@@ -31,7 +34,7 @@ app.get('/', (req, res) => {
 app.post('/signin', (req, res) => {
     const {email, password} = req.body
     if(email === database.users[0].email &&
-        password === database.users[0].password) {
+        bcrypt.compare(password, database.users[0].password)) {
             res.send('signed in')
         } 
     res.status(400).send('sign in failed')
@@ -43,7 +46,10 @@ app.post('/register', (req, res) => {
         id: '124',
         name: name,
         email: email,
-        password: password,
+        password: bcrypt.hash(password, bcryptSaltRounds, function(err, hash) {
+            console.log(hash)
+            return hash
+        }),
         entries: 0,
         joined: new Date()
     })
