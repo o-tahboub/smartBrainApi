@@ -14,7 +14,7 @@ const database = {
             id: '122',
             name: 'samson',
             email: 'samson@fictional.com',
-            passowrd: 'Piano',
+            password: 'Piano',
             entries: 0,
             joined: '2023-06-12T09:19:22.019Z'
         },
