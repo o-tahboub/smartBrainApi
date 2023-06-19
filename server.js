@@ -1,9 +1,11 @@
+import cors from 'cors'
 import bcrypt from 'bcrypt'
 const bcryptSaltRounds = 10;
 import express, { json } from 'express'
 const app = express()
 const port = 3000
 app.use(express.json())
+app.use(cors())
 
 const database = {
     users: [
