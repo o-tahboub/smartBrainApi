@@ -35,17 +35,24 @@ app.get('/', (req, res) => {
 
 app.post('/signin', (req, res) => {
     const {email, password} = req.body
-    if(email === database.users[0].email &&
+    /* if(email === database.users[0].email &&
         bcrypt.compare(password, database.users[0].password)) {
-            res.send('signed in')
+            res.json('signed in')
+        } */ 
+        if(email === database.users[0].email &&
+        password === database.users[0].password) {
+            const {id, name, email, entries, joined} = database.users[0]
+            let userRes = {id, name, email, entries, joined}
+            res.json(userRes)
+        } else {
+            res.status(400).json('sign in failed')
         } 
-    res.status(400).send('sign in failed')
 })
 
 app.post('/register', (req, res) => {
     const {name, email, password} = req.body
     database.users.push({
-        id: '124',
+        id: '126',
         name: name,
         email: email,
         password: bcrypt.hash(password, bcryptSaltRounds, function(err, hash) {
