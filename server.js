@@ -47,18 +47,20 @@ app.get('/', (req, res) => {
 
 app.post('/signin', (req, res) => {
     const {email, password} = req.body
-    /* if(email === database.users[0].email &&
-        bcrypt.compare(password, database.users[0].password)) {
-            res.json('signed in')
-        } */ 
-        if(email === database.users[0].email &&
-        password === database.users[0].password) {
-            const {id, name, email, entries, joined} = database.users[0]
-            let userRes = {id, name, email, entries, joined}
-            res.json(userRes)
+
+    db('login').where('email', email).select('email', 'hash')
+    .then(loginArr => {
+        const isValid = bcrypt.compare(password, loginArr[0].hash);
+        if(isValid) {
+            return loginArr[0];
         } else {
-            res.status(400).json('sign in failed')
-        } 
+            res.status(400).json('username or password not found');
+        }
+    }).then(login => {
+        db('users').returning('*').select('*').where('email', login.email)
+        .then(userArr => res.status(200).json(userArr[0]))
+        .catch(err => res.status(400).json('username or password not found'))
+    }).catch(err => res.status(500).json('could not login to app'))
 })
 
 app.post('/register', (req, res) => {
