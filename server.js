@@ -1,11 +1,23 @@
 import cors from 'cors'
 import bcrypt from 'bcrypt'
 const bcryptSaltRounds = 10;
+import knex from 'knex';
 import express, { json } from 'express'
 const app = express()
 const port = 3000
 app.use(express.json())
 app.use(cors())
+
+const db = knex({
+    client: 'pg',
+    connection: {
+      host : '127.0.0.1',
+      port : 5432,
+      user : 'postgres',
+      password : '',
+      database : 'smart-brain'
+    }
+  });
 
 const database = {
     users: [
