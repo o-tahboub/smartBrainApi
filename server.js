@@ -19,28 +19,6 @@ const db = knex({
     }
   });
 
-const database = {
-    users: [
-        {
-            
-            id: '122',
-            name: 'samson',
-            email: 'samson@fictional.com',
-            password: 'Piano',
-            entries: 0,
-            joined: '2023-06-12T09:19:22.019Z'
-        },
-        {
-            id: '123',
-            name: 'Josh',
-            email: 'josh@fictional.com',
-            password: 'potatoes',
-            entries: 0,
-            joined: new Date()
-        }
-    ]
-}
-
 app.get('/', (req, res) => {
     res.send('this is working')
 })
