@@ -7,6 +7,7 @@ import express, { json } from 'express'
 import { signinHandler } from './ controllers/signin.js'
 import { registerHandler } from './ controllers/register.js'
 import { getProfileHandler } from './ controllers/profile.js'
+import { imageHandler } from './ controllers/image.js'
 
 /* Config */
 const app = express()
@@ -45,10 +46,7 @@ app.get('/profile/:id', (req, res) => {
 })
 
 app.put('/image', (req, res) => {
-    const { id } = req.body
-    db('users').where({id}).increment('entries').returning('entries')
-    .then(entries => res.json(entries[0].entries))
-    .catch(err => res.status(500).json('could not update entries'));
+    imageHandler(req, res, db);
 })
 
 app.listen(port, () => {
