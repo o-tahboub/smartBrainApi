@@ -6,6 +6,7 @@ import express, { json } from 'express'
 /* Controllers */
 import { signinHandler } from './ controllers/signin.js'
 import { registerHandler } from './ controllers/register.js'
+import { getProfileHandler } from './ controllers/profile.js'
 
 /* Config */
 const app = express()
@@ -40,17 +41,7 @@ app.post('/register', (req, res) => {
 })
 
 app.get('/profile/:id', (req, res) => {
-    const { id } = req.params
-
-    db('users').where({id})
-    .then(user => {
-        if(user[0]) {
-            res.json(user[0])
-        } else {
-            res.status(400).json('could not find user')
-        }
-    })
-    .catch(err => res.status(500).json('profile error'));
+    getProfileHandler(req, res, db);
 })
 
 app.put('/image', (req, res) => {
