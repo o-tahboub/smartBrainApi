@@ -1,13 +1,12 @@
 import cors from 'cors'
 import bcrypt from 'bcrypt'
-const bcryptSaltRounds = 10;
-import knex from 'knex';
+import knex from 'knex'
 import express, { json } from 'express'
-const app = express()
-const port = 3000
-app.use(express.json())
-app.use(cors())
 
+/* Config */
+const app = express()
+const bcryptSaltRounds = 10
+const port = 3000
 const db = knex({
     client: 'pg',
     connection: {
@@ -19,6 +18,11 @@ const db = knex({
     }
   });
 
+/* Middleware */
+app.use(express.json())
+app.use(cors())
+
+/* Routes */
 app.get('/', (req, res) => {
     res.send('this is working')
 })
