@@ -1,6 +1,7 @@
 import cors from 'cors'
 import bcrypt from 'bcrypt'
 import knex from 'knex'
+import 'dotenv/config'
 import express, { json } from 'express'
 
 /* Controllers */
@@ -8,9 +9,15 @@ import { signinHandler } from './ controllers/signin.js'
 import { registerHandler } from './ controllers/register.js'
 import { getProfileHandler } from './ controllers/profile.js'
 import { imageHandler } from './ controllers/image.js'
+import { clarifaiFaceDetectionHandler } from './ controllers/clarifaiFaceDetection.js'
 
 /* Config */
 const app = express()
+const clarifaiConfig = {
+    PAT: process.env.Clarifai_PAT,
+    USER_ID: process.env.Clarifai_USER_ID,
+    APP_ID: process.env.Clarifai_APP_ID,
+  }
 const bcryptSaltRounds = 10
 const port = 3000
 const db = knex({
@@ -47,6 +54,10 @@ app.get('/profile/:id', (req, res) => {
 
 app.put('/image', (req, res) => {
     imageHandler(req, res, db);
+})
+
+app.post('/clarifaiFaceDetection', (req, res) => {
+    clarifaiFaceDetectionHandler(req, res, clarifaiConfig);
 })
 
 app.listen(port, () => {
