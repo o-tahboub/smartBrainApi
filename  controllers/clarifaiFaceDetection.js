@@ -14,7 +14,7 @@ export const clarifaiFaceDetectionHandler = async (req, res, clarifaiConfig) => 
             const data = await response.json()
             return res.json(data)
     } catch(err) {
-        return res.status(500).json('Server error: could not get clarifai input')
+        return res.status(500).json('Server error: could not resolve face detection')
     }
 }
 

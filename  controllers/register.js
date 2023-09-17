@@ -12,7 +12,7 @@ export const registerHandler = (req, res, bcrypt, saltRounds, db,) => {
         .insert({
             email: email,
             hash: hash
-        }).catch(err => res.status(500).json(`couldn't create password`))
+        }).catch(err => {throw new Error(`registration failed, please contact administrator`)})
         .then((emailArr) => {
             return trx('users').returning('*').insert({
                 name: name,
@@ -20,8 +20,10 @@ export const registerHandler = (req, res, bcrypt, saltRounds, db,) => {
                 entries: 0,
                 joined: new Date()
             })
+            .catch(err => {throw new Error(`registration failed, please contact administrator`)})
         }).then(usersArr => res.status(200).json(usersArr[0]))
-        .catch(err => res.status(500).send(err))
+        .catch(err => res.status(500).json(`registration failed, please contact administrator`))
+        
         .then(trx.commit)
         .catch(trx.rollback)
     })

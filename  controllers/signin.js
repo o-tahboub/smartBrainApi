@@ -16,8 +16,7 @@ export const signinHandler = (req, res, bcrypt, db) => {
     }).then(login => {
         db('users').returning('*').select('*').where('email', login.email)
         .then(userArr => res.status(200).json(userArr[0]))
-        .catch(err => res.status(400).json('username or password not found'))
-    }).catch(err => res.status(400).json('username or password not found'))
+    }).catch(err => res.status(500).json('could not sign in'))
 }
 
 const inputIsValid = (email, password) => {
