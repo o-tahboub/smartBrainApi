@@ -1,5 +1,10 @@
 export const registerHandler = (req, res, bcrypt, saltRounds, db,) => {
     const {name, email, password} = req.body;
+    
+    if(!inputIsValid(name, email, password)) {
+        return res.status(400).json('enter a valid name, email and password')
+    }
+
     const hash = bcrypt.hashSync(password, saltRounds);
 
     db.transaction(trx => {
@@ -20,4 +25,11 @@ export const registerHandler = (req, res, bcrypt, saltRounds, db,) => {
         .then(trx.commit)
         .catch(trx.rollback)
     })
+}
+
+const inputIsValid = (name, email, password) => {
+    if(name && email && password) {
+        return true
+    }
+    return false
 }

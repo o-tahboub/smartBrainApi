@@ -3,6 +3,10 @@ import fetch from 'node-fetch'
 export const clarifaiFaceDetectionHandler = async (req, res, clarifaiConfig) => {
     const { imageUrl } = req.body
 
+    if(!inputIsValid(imageUrl)) {
+        return res.status(400).json('enter a valid image url')
+    }
+
     try {
         const response = await fetch(
             'https://api.clarifai.com/v2/models/face-detection/outputs', 
@@ -12,6 +16,13 @@ export const clarifaiFaceDetectionHandler = async (req, res, clarifaiConfig) => 
     } catch(err) {
         return res.status(500).json('Server error: could not get clarifai input')
     }
+}
+
+const inputIsValid = (imageUrl) => {
+    if(imageUrl) {
+        return true
+    }
+    return false
 }
 
 const setupClarifaiRequestBody = (config, imageUrl) => {
