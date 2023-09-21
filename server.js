@@ -59,6 +59,6 @@ app.post('/clarifaiFaceDetection', (req, res) => {
     clarifaiFaceDetectionHandler(req, res, clarifaiConfig);
 })
 
-app.listen(() => {
+app.listen(443, () => {
     console.log(`app is running`)
 })
