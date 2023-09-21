@@ -19,7 +19,6 @@ const clarifaiConfig = {
     APP_ID: process.env.Clarifai_APP_ID,
   }
 const bcryptSaltRounds = 10
-const port = 3000
 const db = knex({
     client: 'pg',
     connection: {
@@ -60,6 +59,6 @@ app.post('/clarifaiFaceDetection', (req, res) => {
     clarifaiFaceDetectionHandler(req, res, clarifaiConfig);
 })
 
-app.listen(port, () => {
-    console.log(`app is running on port ${port}`)
+app.listen(() => {
+    console.log(`app is running`)
 })
