@@ -30,7 +30,8 @@ export const registerHandler = (req, res, bcrypt, saltRounds, db,) => {
 }
 
 const inputIsValid = (name, email, password) => {
-    if(name && email && password) {
+    if((name && email && password) &&
+    (password.length > 7)) {
         return true
     }
     return false
